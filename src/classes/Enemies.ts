@@ -76,3 +76,22 @@ export class Waver extends Enemy {
 
     
 }
+
+export class Sweeper extends Enemy {
+    amplitude: number;
+    frequency: number;
+
+    constructor(scene: Play, x: number, y: number, texture: string, player: Phaser.GameObjects.Shape, speed: number, value: number) {
+        super(scene, x, y, texture, player, speed, value);
+        scene.add.existing(this);
+        this.amplitude = 1.2;
+        this.frequency = 0.005;
+    }
+
+    move(delta: number){
+        this.x += Math.abs((this.amplitude * Math.cos(this.scene.time.now * this.frequency))) * delta;
+        this.y = this.baseY + (this.amplitude * 40 * Math.cos(this.scene.time.now * this.frequency));
+    }
+
+    
+}

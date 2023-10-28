@@ -2,7 +2,7 @@ import * as Phaser from "phaser";
 
 import starfieldUrl from "/assets/starfield.png";
 import enemyUrl from "/assets/enemy.png";
-import Enemy, { Waver } from "../classes/Enemies";
+import Enemy, { Sweeper, Waver } from "../classes/Enemies";
 import { Vector } from "matter";
 
 export default class Play extends Phaser.Scene {
@@ -25,6 +25,7 @@ export default class Play extends Phaser.Scene {
 
   preload() {
     this.load.image("starfield", starfieldUrl);
+    this.load.image("enemy", enemyUrl);
     this.startX = 100;
     this.startY = this.game.config.height as number - 100;
     this.shipLaunched = false;
@@ -55,9 +56,9 @@ export default class Play extends Phaser.Scene {
     this.ship = this.add.rectangle(this.startX, this.startY, 50, 50, 0x4fb589);
     this.scoreText = this.add.text(0, 0, 'Score: 0', { font: '"Press Start 2P"'});
     
-    this.enemyArray?.push(new Waver(this, -100, 100, enemyUrl, this.ship, 0.5, 100));
-    this.enemyArray?.push(new Enemy(this, -100, 150, enemyUrl, this.ship, 0.3, 50));
-    this.enemyArray?.push(new Waver(this, -150, 100, enemyUrl, this.ship, 0.2, 100));
+    this.enemyArray?.push(new Waver(this, -100, 100, "enemy", this.ship, 0.5, 100));
+    this.enemyArray?.push(new Enemy(this, -100, 150, "enemy", this.ship, 0.3, 50));
+    this.enemyArray?.push(new Sweeper(this, -150, 100, "enemy", this.ship, 0.2, 120));
   }
 
   update(_timeMs: number, delta: number) {
@@ -74,10 +75,6 @@ export default class Play extends Phaser.Scene {
 
   updateScoreText(){
     this.scoreText?.setText(`Score: ${this.score}`);
-  }
-
-  removeEnemy(enemy : Enemy){
-    
   }
 
   checkMovement(delta: number){
